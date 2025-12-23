@@ -52,17 +52,17 @@ static char	**dup_grid(t_map *map)
 static void	flood_fill(char **grid, int x, int y, t_map *map,
 				int *reach_c, int *reach_e)
 {
+	char	cell;
+
 	if (x < 0 || y < 0 || x >= map->width || y >= map->height)
 		return ;
-	if (grid[y][x] == '1' || grid[y][x] == 'V')
+	cell = grid[y][x];
+	if (cell == '1' || cell == 'V')
 		return ;
-	if (grid[y][x] == 'C')
+	if (cell == 'C')
 		(*reach_c)++;
-	if (grid[y][x] == 'E')
-	{
+	if (cell == 'E')
 		(*reach_e)++;
-		return ;
-	}
 	grid[y][x] = 'V';
 	flood_fill(grid, x + 1, y, map, reach_c, reach_e);
 	flood_fill(grid, x - 1, y, map, reach_c, reach_e);

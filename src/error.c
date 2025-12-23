@@ -17,15 +17,30 @@ void	destroy_images(t_game *game)
 	if (!game->mlx)
 		return ;
 	if (game->assets.wall.ptr)
+	{
 		mlx_destroy_image(game->mlx, game->assets.wall.ptr);
+		game->assets.wall.ptr = NULL;
+	}
 	if (game->assets.floor.ptr)
+	{
 		mlx_destroy_image(game->mlx, game->assets.floor.ptr);
+		game->assets.floor.ptr = NULL;
+	}
 	if (game->assets.collect.ptr)
+	{
 		mlx_destroy_image(game->mlx, game->assets.collect.ptr);
+		game->assets.collect.ptr = NULL;
+	}
 	if (game->assets.exit.ptr)
+	{
 		mlx_destroy_image(game->mlx, game->assets.exit.ptr);
+		game->assets.exit.ptr = NULL;
+	}
 	if (game->assets.player.ptr)
+	{
 		mlx_destroy_image(game->mlx, game->assets.player.ptr);
+		game->assets.player.ptr = NULL;
+	}
 }
 
 void	free_map(t_map *map)
@@ -37,7 +52,11 @@ void	free_map(t_map *map)
 	i = 0;
 	while (i < map->height)
 	{
-		free(map->grid[i]);
+		if (map->grid[i])
+		{
+			free(map->grid[i]);
+			map->grid[i] = NULL;
+		}
 		i++;
 	}
 	free(map->grid);
@@ -47,12 +66,16 @@ void	free_map(t_map *map)
 static void	clean_game(t_game *game)
 {
 	destroy_images(game);
-	if (game->win)
+	if (game->win && game->mlx)
+	{
 		mlx_destroy_window(game->mlx, game->win);
+		game->win = NULL;
+	}
 	if (game->mlx)
 	{
 		mlx_destroy_display(game->mlx);
 		free(game->mlx);
+		game->mlx = NULL;
 	}
 	free_map(&game->map);
 }

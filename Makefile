@@ -13,7 +13,7 @@ all: $(NAME)
 
 $(NAME): $(OBJS)
 	$(MAKE) -C $(LIBFT_DIR)
-	$(MAKE) -C $(MLX_DIR) -f Makefile.gen
+	$(MAKE) -C $(MLX_DIR)
 	$(CC) $(CFLAGS) $(OBJS) $(INCLUDES) $(LDFLAGS) -o $(NAME)
 
 %.o: %.c
@@ -22,7 +22,6 @@ $(NAME): $(OBJS)
 clean:
 	rm -f $(OBJS)
 	$(MAKE) -C $(LIBFT_DIR) clean
-	$(MAKE) -C $(MLX_DIR) -f Makefile.gen clean
 
 fclean: clean
 	rm -f $(NAME)

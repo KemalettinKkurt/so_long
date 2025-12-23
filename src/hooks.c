@@ -29,14 +29,20 @@ static void	move_player(t_game *game, int dx, int dy)
 	if (dest == 'E' && game->map.collectibles > 0)
 		return ;
 	if (dest == 'C')
+	{
 		game->map.collectibles--;
+		game->map.grid[ny][nx] = '0';
+	}
 	game->map.player_x = nx;
 	game->map.player_y = ny;
 	game->moves++;
 	print_move_count(game->moves);
 	render_map(game);
 	if (dest == 'E')
+	{
+		ft_putstr_fd("Congratulations! You won!\n", 1);
 		close_game(game);
+	}
 }
 
 int	handle_key(int keysym, t_game *game)

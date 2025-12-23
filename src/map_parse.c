@@ -118,7 +118,6 @@ static int	parse_rows(char **rows, t_map *map)
 				map->players++;
 				map->player_x = x;
 				map->player_y = y;
-				map->grid[y][x] = '0';
 			}
 			else if (map->grid[y][x] == 'C')
 				map->collectibles++;
@@ -126,7 +125,10 @@ static int	parse_rows(char **rows, t_map *map)
 				map->exits++;
 		}
 	}
-	return (validate_counts(map));
+	if (validate_counts(map))
+		return (1);
+	map->grid[map->player_y][map->player_x] = '0';
+	return (0);
 }
 
 int	load_map(const char *path, t_map *map)
