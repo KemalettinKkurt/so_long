@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: generated <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: kkocakur <kkocakur@student.42kocaeli.com.t +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/23 00:00:00 by generated         #+#    #+#             */
-/*   Updated: 2025/12/23 00:00:00 by generated        ###   ########.fr       */
+/*   Created: 2025/12/23 22:22:57 by kkocakur          #+#    #+#             */
+/*   Updated: 2025/12/23 22:23:16 by kkocakur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ static t_image	load_image(void *mlx, const char *path)
 {
 	t_image	img;
 
-	img.ptr = mlx_xpm_file_to_image(mlx, (char *)path, &img.width, &img.height);
+	img.ptr = mlx_xpm_file_to_image(mlx, (char *)path,
+			&img.width, &img.height);
 	return (img);
 }
 
@@ -46,17 +47,26 @@ int	init_window(t_game *game)
 	return (0);
 }
 
-static void	put_tile(t_game *game, t_image img, int x, int y)
+static void	put_tile(t_game *game, char tile, int x, int y)
 {
-	mlx_put_image_to_window(game->mlx, game->win, img.ptr,
-		x * TILE_SIZE, y * TILE_SIZE);
+	if (tile == '1')
+		mlx_put_image_to_window(game->mlx, game->win, game->assets.wall.ptr,
+			x * TILE_SIZE, y * TILE_SIZE);
+	else
+		mlx_put_image_to_window(game->mlx, game->win, game->assets.floor.ptr,
+			x * TILE_SIZE, y * TILE_SIZE);
+	if (tile == 'C')
+		mlx_put_image_to_window(game->mlx, game->win, game->assets.collect.ptr,
+			x * TILE_SIZE, y * TILE_SIZE);
+	else if (tile == 'E')
+		mlx_put_image_to_window(game->mlx, game->win, game->assets.exit.ptr,
+			x * TILE_SIZE, y * TILE_SIZE);
 }
 
 int	render_map(t_game *game)
 {
 	int	x;
 	int	y;
-	char	tile;
 
 	y = 0;
 	while (y < game->map.height)
@@ -64,19 +74,12 @@ int	render_map(t_game *game)
 		x = 0;
 		while (x < game->map.width)
 		{
-			tile = game->map.grid[y][x];
-			if (tile == '1')
-				put_tile(game, game->assets.wall, x, y);
-			else
-				put_tile(game, game->assets.floor, x, y);
-			if (tile == 'C')
-				put_tile(game, game->assets.collect, x, y);
-			else if (tile == 'E')
-				put_tile(game, game->assets.exit, x, y);
+			put_tile(game, game->map.grid[y][x], x, y);
 			x++;
 		}
 		y++;
 	}
-	put_tile(game, game->assets.player, game->map.player_x, game->map.player_y);
+	mlx_put_image_to_window(game->mlx, game->win, game->assets.player.ptr,
+		game->map.player_x * TILE_SIZE, game->map.player_y * TILE_SIZE);
 	return (0);
 }

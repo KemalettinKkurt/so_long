@@ -4,7 +4,7 @@ CFLAGS		= -Wall -Wextra -Werror
 MLX_DIR		= minilibx-linux
 LIBFT_DIR	= libft
 SRCS		= src/main.c src/error.c src/file_utils.c src/map_parse.c \
-			  src/path_check.c src/render.c src/hooks.c
+			  src/map_parse_utils.c src/path_check.c src/render.c src/hooks.c
 OBJS		= $(SRCS:.c=.o)
 INCLUDES	= -Iincludes -I$(LIBFT_DIR) -I$(MLX_DIR)
 LDFLAGS		= -L$(LIBFT_DIR) -lft -L$(MLX_DIR) -lmlx -lXext -lX11 -lm -lz

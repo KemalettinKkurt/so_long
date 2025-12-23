@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putnbr_fd.c                                    :+:      :+:    :+:   */
+/*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: generated <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: kkocakur <kkocakur@student.42kocaeli.com.t +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/23 00:00:00 by generated         #+#    #+#             */
-/*   Updated: 2025/12/23 00:00:00 by generated        ###   ########.fr       */
+/*   Created: 2025/12/23 22:25:17 by kkocakur          #+#    #+#             */
+/*   Updated: 2025/12/24 01:25:52 by kkocakur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,4 +32,3 @@ void	ft_putnbr_fd(int n, int fd)
 	else
 		put_unsigned((unsigned int)n, fd);
 }
-

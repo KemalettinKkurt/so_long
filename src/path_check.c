@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path_check.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: generated <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: kkocakur <kkocakur@student.42kocaeli.com.t +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/23 00:00:00 by generated         #+#    #+#             */
-/*   Updated: 2025/12/23 00:00:00 by generated        ###   ########.fr       */
+/*   Created: 2025/12/23 22:23:09 by kkocakur          #+#    #+#             */
+/*   Updated: 2025/12/23 22:23:12 by kkocakur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,44 +49,39 @@ static char	**dup_grid(t_map *map)
 	return (copy);
 }
 
-static void	flood_fill(char **grid, int x, int y, t_map *map,
-				int *reach_c, int *reach_e)
+static void	flood_fill(char **grid, int x, int y, t_path_counts *counts)
 {
 	char	cell;
 
-	if (x < 0 || y < 0 || x >= map->width || y >= map->height)
+	if (x < 0 || y < 0 || x >= counts->width || y >= counts->height)
 		return ;
 	cell = grid[y][x];
 	if (cell == '1' || cell == 'V')
 		return ;
 	if (cell == 'C')
-		(*reach_c)++;
+		counts->reach_c++;
 	if (cell == 'E')
-		(*reach_e)++;
+		counts->reach_e++;
 	grid[y][x] = 'V';
-	flood_fill(grid, x + 1, y, map, reach_c, reach_e);
-	flood_fill(grid, x - 1, y, map, reach_c, reach_e);
-	flood_fill(grid, x, y + 1, map, reach_c, reach_e);
-	flood_fill(grid, x, y - 1, map, reach_c, reach_e);
+	flood_fill(grid, x + 1, y, counts);
+	flood_fill(grid, x - 1, y, counts);
+	flood_fill(grid, x, y + 1, counts);
+	flood_fill(grid, x, y - 1, counts);
 }
 
 int	validate_paths(t_map *map)
 {
-	char	**copy;
-	int		reach_c;
-	int		reach_e;
+	char			**copy;
+	t_path_counts	counts;
 
 	copy = dup_grid(map);
 	if (!copy)
 		return (1);
-	reach_c = 0;
-	reach_e = 0;
-	flood_fill(copy, map->player_x, map->player_y, map, &reach_c, &reach_e);
+	counts.reach_c = 0;
+	counts.reach_e = 0;
+	counts.width = map->width;
+	counts.height = map->height;
+	flood_fill(copy, map->player_x, map->player_y, &counts);
 	free_grid(copy, map->height);
-	if (reach_c != map->collectibles)
-		return (1);
-	if (reach_e < 1)
-		return (1);
-	return (0);
+	return (counts.reach_c != map->collectibles || counts.reach_e < 1);
 }
-

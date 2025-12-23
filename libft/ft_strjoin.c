@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strjoin.c                                     :+:      :+:    :+:   */
+/*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: generated <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: kkocakur <kkocakur@student.42kocaeli.com.t +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/23 00:00:00 by generated         #+#    #+#             */
-/*   Updated: 2025/12/23 00:00:00 by generated        ###   ########.fr       */
+/*   Created: 2025/12/23 22:24:43 by kkocakur          #+#    #+#             */
+/*   Updated: 2025/12/24 01:27:14 by kkocakur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,4 +39,3 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	joined[len1 + len2] = '\0';
 	return (joined);
 }
-

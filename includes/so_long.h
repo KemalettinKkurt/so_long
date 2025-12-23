@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   so_long.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: generated <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: kkocakur <kkocakur@student.42kocaeli.com.t +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/23 00:00:00 by generated         #+#    #+#             */
-/*   Updated: 2025/12/23 00:00:00 by generated        ###   ########.fr       */
+/*   Created: 2025/12/23 00:00:00 by kkocakur          #+#    #+#             */
+/*   Updated: 2025/12/24 01:52:55 by kkocakur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,23 @@ typedef struct s_game
 	int			moves;
 }	t_game;
 
+typedef struct s_path_counts
+{
+	int	reach_c;
+	int	reach_e;
+	int	width;
+	int	height;
+}	t_path_counts;
+
 /* map / parsing */
 int		load_map(const char *path, t_map *map);
 void	free_map(t_map *map);
+void	free_rows(char **rows);
+void	free_map_grid(char **grid, int height);
+
+/* map / parsing utils */
+int		is_border_wall(t_map *map);
+int		validate_counts(t_map *map);
 
 /* path validation */
 int		validate_paths(t_map *map);
@@ -80,5 +94,6 @@ int		close_game(t_game *game);
 void	error_exit(const char *message, t_game *game);
 void	print_move_count(int moves);
 char	*read_file_content(const char *path);
+void	clean_game(t_game *game);
 
 #endif
