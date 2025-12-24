@@ -6,7 +6,7 @@
 /*   By: kkocakur <kkocakur@student.42kocaeli.com.t +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/23 22:23:23 by kkocakur          #+#    #+#             */
-/*   Updated: 2025/12/23 22:23:26 by kkocakur         ###   ########.fr       */
+/*   Updated: 2025/12/24 03:15:42 by kkocakur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,27 +22,28 @@ static int	check_extension(const char *path)
 	return (ft_strncmp(path + len - 4, ".ber", 4));
 }
 
-static int	load_grid(char **rows, t_map *map)
+static int	load_grid(char **rows, t_map *map, int width)
 {
 	int	y;
 	int	x;
 
+	map->width = width;
 	map->height = 0;
 	while (rows[map->height])
 		map->height++;
-	map->grid = (char **)ft_calloc(map->height, sizeof(char *));
+	if (width > 30 || map->height > 16)
+		return (1);
+	map->grid = ft_calloc(map->height, sizeof(char *));
 	if (!map->grid)
 		return (1);
 	y = -1;
 	while (++y < map->height)
 	{
-		if ((int)ft_strlen(rows[y]) != map->width)
-			return (free_map(map), 1);
 		map->grid[y] = ft_strdup(rows[y]);
-		if (!map->grid[y])
+		if (!map->grid[y] || (int)ft_strlen(rows[y]) != width)
 			return (free_map(map), 1);
 		x = -1;
-		while (++x < map->width)
+		while (++x < width)
 			if (!ft_strchr("01CEP", rows[y][x]))
 				return (free_map(map), 1);
 	}
@@ -76,8 +77,10 @@ static void	count_elements(t_map *map)
 
 static int	parse_rows(char **rows, t_map *map)
 {
-	map->width = ft_strlen(rows[0]);
-	if (load_grid(rows, map))
+	int	width;
+
+	width = ft_strlen(rows[0]);
+	if (load_grid(rows, map, width))
 		return (1);
 	count_elements(map);
 	if (validate_counts(map))
@@ -95,10 +98,7 @@ int	load_map(const char *path, t_map *map)
 		return (1);
 	content = read_file_content(path);
 	if (!content || !*content)
-	{
-		free(content);
-		return (1);
-	}
+		return (free(content), 1);
 	rows = ft_split(content, '\n');
 	free(content);
 	if (!rows || !rows[0])
